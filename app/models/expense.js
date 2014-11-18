@@ -2,7 +2,7 @@ var mongoose     = require('mongoose');
 
 var ExpenseSchema   = new mongoose.Schema({
     type: String,
-	date: Date,
+	date: { type: Date, default: Date.now },
 	amount: Number
 });
 

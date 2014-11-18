@@ -1,4 +1,5 @@
 var express = require('express')
+var bodyParser = require('body-parser')
 var mongoUri = process.env.MONGOLAB_URI ||
 'mongodb://expenses_user:expenses_password@ds051720.mongolab.com:51720/heroku_app31740700'
 var mongoose = require('mongoose')
@@ -9,6 +10,9 @@ var app = express();
 app.set('port', (process.env.PORT || 5000))
 
 var Expense = require('./app/models/expense')
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', function(request, response) {
   response.json({message: "Hello expenses app!"})
@@ -22,6 +26,76 @@ app.get('/api/expenses', function(request, response) {
 		}
 		
 		response.json(expenses)
+	})
+})
+
+/* GET expense by id */
+app.get('/api/expenses/:expense_id', function(request, response) {
+	Expense.findById(request.params.expense_id, function(error, expense) {
+		if (error) {
+			response.send(error)
+		}
+		
+		if (expense == null) {
+			response.json([])
+		}
+		response.json(expense)
+	})
+})
+
+/* POST expense */
+app.post('/api/expenses', function(request, response) {
+  	var expense = new Expense()
+	expense.type = request.body.type
+	expense.date = request.body.date
+	expense.amount = request.body.amount
+
+  	expense.save(function(error) {
+    	if (error) {
+      		response.send(error)
+    	}
+
+    response.json(expense)
+  	})
+})
+
+/* PUT expense */
+app.put('/api/expenses/:expense_id', function(request, response) {
+	Expense.findById(request.params.expense_id, function(error, expense) {
+		if (error) {
+			response.send(error)
+		}
+		
+		if (request.body.type != null) {
+			expense.type = request.body.type
+		}
+		if (request.body.date != null) {
+			expense.date = request.body.date
+		}
+		if (request.body.amount != null) {
+			expense.amount = request.body.amount
+		}
+		
+		expense.save(function(error) {
+			if (error) {
+				response.send(error)
+			}
+			
+			response.json(expense)
+		})
+	})
+})
+
+/* DELETE expense */
+app.delete('/api/expenses/:expense_id', function(request, response) {
+	Expense.remove({
+		_id: request.params.expense_id
+	}, function(error, expense) {
+		if (error) {
+			response.send(error)
+		}
+		
+		response.json({message: 'Deleted!'})
 	})
 })
 
