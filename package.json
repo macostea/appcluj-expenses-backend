@@ -1,21 +1,23 @@
-	{
-			  "name": "expenses-app",
-			  	  "version": "0.0.1",
-				  	  "description": "A simple expenses management application",
-					  	  "main": "index.js",
-						  	  "scripts": {
-								  	    "start": "node index.js"
-									    	  },
-										  	  "dependencies": {
-												  	    "express": "~4.9.x"
-													    	  },
-														  	  "engines": {
-																  	    "node": "0.10.x"
-																	    	  },
-																		  	  "keywords": [
-																				  	    "node",
-																					    	    "heroku",
-																						    	    "express"
-																							    	  ],
-																								  	  "license": "MIT"
-																									  	}
+{
+  "name": "expenses-app",
+  "version": "0.0.1",
+  "description": "A simple expenses management application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "~4.9.x",
+    "mongoose": "^4.6.3"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
+}
